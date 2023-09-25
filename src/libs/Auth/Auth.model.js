@@ -24,6 +24,7 @@ exports.createAuth = (AuthData) => {
       },
     }).then(
       (result) => {
+        console.log(result);
         if (result.length == 0) {
           Auth.create(AuthData).then(
             async (result1) => {
@@ -39,6 +40,7 @@ exports.createAuth = (AuthData) => {
               resolve({ success: "User created successfully" });
             },
             (err) => {
+              console.log(err);
               reject({ error: "User creation failed" });
             }
           );
@@ -242,10 +244,12 @@ exports.deleteAuthById = (AuthID) => {
       },
     }).then(
       (result) => {
+        console.log(result);
         if (result != 0) resolve({ success: "Deleted successfully!!!" });
         else reject({ error: "User does not exist!!!" });
       },
       (err) => {
+        console.log(err);
         reject({ error: err });
       }
     );
