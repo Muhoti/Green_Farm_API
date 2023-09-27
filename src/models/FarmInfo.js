@@ -11,10 +11,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    Coordinates: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     County: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -36,6 +32,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     LandSize: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    Latitude: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    Longitude: {
       type: DataTypes.STRING,
       allowNull: false,
     },

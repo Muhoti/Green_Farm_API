@@ -11,10 +11,16 @@ const Facility = require("./libs/Facility/Facility.route");
 const Utility = require("./libs/Utility/Utility.route");
 const HumanResource = require("./libs/HumanResource/HumanResource.route");
 const Forest = require("./libs/Forest/Forest.route");
+const ProductionRecord = require("./libs/ProductionRecord/ProductionRecord.route");
+const MarketRecord = require("./libs/MarketRecord/MarketRecord.route");
+const CostRecord = require("./libs/CostRecord/CostRecord.route");
+const ProductionReport = require("./libs/ProductionReport/ProductionReport.route");
+const CostReport = require("./libs/CostReport/CostReport.route");
+const SalesReport = require("./libs/SalesReport/SalesReport.route");
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+const NodeCache = require("node-cache");
+const path = require("path");
+const myCache = new NodeCache();
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -33,9 +39,36 @@ app.use(function (req, res, next) {
   }
 });
 
+// Dev Mode
+app.use(function (req, res, next) {
+  if (req.url.includes("/api")) {
+    req.url = req.url.toString().replace("/api", "");
+  }
+  if (req.method === "POST" || req.method === "PUT") {
+    myCache.flushAll();
+  }
+  next();
+});
+
+app.get("/ol", (req, res) => {
+  console.log(req.url);
+  res.send("Hello World!");
+});
+
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/images", express.static(path.join(__dirname, "public/images")));
+app.use("/ol", express.static(path.join(__dirname, "public/ol")));
+
 app.use(
   express.json({ limit: "50mb", extended: true, parameterLimit: 1000000 })
 );
+
+app.get("/map", (req, res) => {
+  console.log("connected to nao");
+  res.render("map");
+});
 
 Auth.AuthRoutes(app);
 FarmInfo.FarmInfoRoutes(app);
@@ -45,6 +78,12 @@ Facility.FacilityRoutes(app);
 Utility.UtilityRoutes(app);
 HumanResource.HumanResourceRoutes(app);
 Forest.ForestRoutes(app);
+ProductionRecord.ProductionRecordRoutes(app);
+MarketRecord.MarketRecordRoutes(app);
+CostRecord.CostRecordRoutes(app);
+ProductionReport.ProductionReportRoutes(app);
+CostReport.CostReportRoutes(app);
+SalesReport.SalesReportRoutes(app);
 
 app.listen(env.port, () => {
   console.log(`Server running on port ${env.port}`);
