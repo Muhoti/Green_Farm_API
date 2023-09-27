@@ -17,6 +17,7 @@ const CostRecord = require("./libs/CostRecord/CostRecord.route");
 const ProductionReport = require("./libs/ProductionReport/ProductionReport.route");
 const CostReport = require("./libs/CostReport/CostReport.route");
 const SalesReport = require("./libs/SalesReport/SalesReport.route");
+const Product = require("./libs/Product/Product.route");
 
 const NodeCache = require("node-cache");
 const path = require("path");
@@ -84,6 +85,7 @@ CostRecord.CostRecordRoutes(app);
 ProductionReport.ProductionReportRoutes(app);
 CostReport.CostReportRoutes(app);
 SalesReport.SalesReportRoutes(app);
+Product.ProductRoutes(app);
 
 app.listen(env.port, () => {
   console.log(`Server running on port ${env.port}`);
