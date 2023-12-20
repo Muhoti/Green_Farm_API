@@ -28,7 +28,10 @@ exports.ProductRoutes = function (app) {
     ProductController.findProductByPhoneNumber,
   ]);
 
-  app.post("/product/create", [ProductController.create]);
+  app.post("/product/create", [
+    ProductModel.uploadImage,
+    ProductController.create,
+  ]);
 
   app.put("/product/update/:id", [ProductController.updateByID]);
 

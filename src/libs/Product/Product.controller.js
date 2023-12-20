@@ -1,6 +1,10 @@
 const ProductModel = require("./Product.model");
 
+
 exports.create = (req, res) => {
+  // if (req.file) req.body.Image = "/uploads/" + req.file.filename;
+  if (req.file) req.body.Image = req.file.path;
+
   ProductModel.createProduct(req.body).then(
     (result) => {
       console.log(result);

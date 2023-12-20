@@ -5,9 +5,35 @@ const { Op } = require("sequelize");
 const Path = require("path");
 const { resolve } = require("path");
 const { log } = require("console");
+const multer = require("multer");
+
 Product.sync({ force: false });
 
+let upload = multer({
+  limits: { fileSize: 5000000 },
+  fileFilter: (req, file, callback) => {
+    const acceptableExtensions = [".png", ".jpg"];
+    if (!acceptableExtensions.includes(Path.extname(file.originalname))) {
+      return callback(new Error("Unsupported format"));
+    }
+    const fileSize = parseInt(req.headers["content-length"]);
+    if (fileSize > 5000000) {
+      return callback(new Error("Image too large"));
+    }
+    callback(null, true);
+  },
+  storage: multer.diskStorage({
+    destination: "uploads/",
+    filename: function (req, file, callback) {
+      callback(null, Date.now() + file.originalname);
+    },
+  }),
+});
+
+exports.uploadImage = upload.single("Image");
+
 exports.createProduct = (ProductData) => {
+  console.log(ProductData);
   return new Promise(async (resolve, reject) => {
     Product.create(ProductData).then(
       (result) => {
