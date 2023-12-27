@@ -7,7 +7,7 @@ const { resolve } = require("path");
 const { log } = require("console");
 const multer = require("multer");
 
-Product.sync({ force: false });
+Product.sync({ force: true });
 
 let upload = multer({
   limits: { fileSize: 5000000 },
