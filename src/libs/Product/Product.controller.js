@@ -52,6 +52,17 @@ exports.findByID = (req, res) => {
   );
 };
 
+exports.searchByCategory = (req, res) => {
+  ProductModel.searchByCategory(req.params.category).then(
+    (result) => {
+      res.status(200).send(result);
+    },
+    (err) => {
+      res.status(203).send(err);
+    }
+  );
+};
+
 exports.findProductByNationalId = (req, res) => {
   ProductModel.findProductByNationalId(req.params.nationalId).then(
     (result) => {

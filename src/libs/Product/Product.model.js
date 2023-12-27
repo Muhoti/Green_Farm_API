@@ -102,6 +102,26 @@ exports.findByID = (id) => {
   });
 };
 
+exports.searchByCategory = (category) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const data = await ProductModel.findAll({
+        attributes: ["ProductID", "Image", "Category", "Title", "Description", "Price", "Expiry"],
+        where: {
+          Category: {
+            [Op.eq]: category
+          }
+        },
+        limit: 2,
+        offset: 0
+      });
+      resolve(data);
+    } catch (error) {
+      reject([]);
+    }
+  });
+};
+
 exports.findProductByNationalId = (id, limit) => {
   return new Promise((resolve, reject) => {
     Product.findAll({

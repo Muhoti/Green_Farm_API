@@ -12,6 +12,8 @@ exports.ProductRoutes = function (app) {
 
   app.get("/product/:id", [ProductController.findByID]);
 
+  app.get("/product/search/:category", [ProductController.searchByCategory]);
+
   app.get("/product/searchid/:nationalId", [
     ProductController.findProductByNationalId,
   ]);
