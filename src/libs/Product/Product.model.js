@@ -102,23 +102,27 @@ exports.findByID = (id) => {
   });
 };
 
-exports.searchByCategory = (category) => {
+exports.searchByCategory = (category, limit = 10) => {
   return new Promise(async (resolve, reject) => {
-    try {
-      const data = await ProductModel.findAll({
-        attributes: ["ProductID", "Image", "Category", "Title", "Description", "Price", "Expiry"],
-        where: {
-          Category: {
-            [Op.eq]: category
-          }
+    Product.findAll({
+      where: {
+        Category: {
+          [Op.iLike]: `%${category}%`,
         },
-        limit: 2,
-        offset: 0
-      });
-      resolve(data);
-    } catch (error) {
-      reject([]);
-    }
+      },
+      limit: limit,
+    }).then(
+      (result) => {
+        if (result == null) {
+          reject({error: "Product Data Not Found"});
+        }
+        resolve(result);
+      },
+      (err) => {
+        console.log(err);
+        reject({error: "failed"});
+      }
+    )
   });
 };
 

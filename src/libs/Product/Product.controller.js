@@ -58,7 +58,7 @@ exports.searchByCategory = (req, res) => {
       res.status(200).send(result);
     },
     (err) => {
-      res.status(203).send(err);
+      res.status(203).send(err.message);
     }
   );
 };
