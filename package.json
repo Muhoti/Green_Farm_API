@@ -28,5 +28,8 @@
     "uuidv4": "^6.2.7"
   },
   "keywords": [],
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
 }
